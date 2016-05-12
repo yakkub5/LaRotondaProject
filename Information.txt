@@ -1,0 +1,16 @@
+background RBG: #1d7ee0;
+fonds #ffffff;
+
+video 1: https://www.youtube.com/watch?v=iM_KjhY4lL0&annotation_id=annotation_1021345023&feature=iv&src_vid=KI-h-9Tyco8
+video 2: https://www.youtube.com/watch?v=KI-h-9Tyco8
+formly
+
+
+$cordovaDatePicker from:
+cordova plugin add https://github.com/vitaliiBlagodir/cordova-plugin-datepicker.git
+
+
+Example delete buttons
+https://github.com/danii-nebot/angular-nested-lists
+add elements into array and remove it.
+http://quecosacuriosa.blogspot.dk/2014/06/curso-de-angularjs-parte2.html
