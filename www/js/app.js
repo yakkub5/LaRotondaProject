@@ -3,9 +3,15 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
+var app = angular.module('starter', [
+  'ionic',
+   'ngRoute',
+    'firebase',
+    'control',
+     'factory',
+      'ui.calendar']);
 
-.run(function($ionicPlatform) {
+app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -21,19 +27,54 @@ angular.module('starter', ['ionic'])
       StatusBar.styleDefault();
     }
   });
-})
+});
 
-.config(function($stateProvider, $urlRouterProvider) {
+/*
+app.config(function($routeProvider){
+  $routeProvider
+  .when("/", {
+    templateUrl:"templates/main.html",
+    controller:"listButtons"
+  })
+  .when("/user/select-appointment",{
+    templateUrl:"templates/appointment.html",
+    controller:"selectAppointment"
+  })
+  .when("/user/select-calendar", {
+    templateUrl:"templates/calendar.html",
+    controller:"selectCalendar"
+  })
+  .when("/user/services", {
+    templateUrl:"templates/services.html",
+    controller:"selectServices"
+  })
+  .when("/user/select-about", {
+    templateUrl:"templates/about.html",
+    controller:"selectAbout"
+  })
+  .otherwise({
+    redirectTo:"/"
+  });
+
+})
+*/
+//angular.module('ui.calendar', [])
+
+app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('login', {
             url: '/login',
             templateUrl: 'templates/login.html'
             // controller: 'LoginController'
         })
+        .state('appointment', {
+            url: '/appointment',
+            templateUrl: 'templates/appointment.html'
+            // controller: 'LoginController'
+        })
         .state('calendar', {
-            url: '/calendar',
-            templateUrl: 'templates/calendar.html'
-            // controller: 'CalendarController'
+          url: '/calendar',
+          templateUrl: 'templates/calendar.html'
         })
         .state('about', {
             url: '/about',

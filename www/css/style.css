@@ -83,7 +83,7 @@ p b {
 .main .navigation {
   max-height: 270px;
 }
-.main .navigation .button {
+.main .navigation .button-block {
   border: 2px solid #fff;
   margin: 20px 0px;
   color: #fff;
