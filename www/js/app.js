@@ -7,6 +7,7 @@ var app = angular.module('starter', [
   'ionic',
    'ngRoute',
     'firebase',
+    'ui.router',
     'control',
      'factory',
       'ui.calendar']);
@@ -90,6 +91,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/services",
             templateUrl: "templates/services.html"
             // controller: "UserController"
-        });
+        })
+        .state('home', {
+    url: '/home',
+    "abstract": true,
+    templateUrl: 'templates/scrHome-content.html'
+   })
+   .state('home.calendar', {
+    url: '/calendar2',
+    views: {
+     'menuContent': {
+      templateUrl: 'templates/scrCalendar.html',
+      controller: 'CalendarController'
+     }
+    }
+   });
+
     $urlRouterProvider.otherwise('/main');
 });
