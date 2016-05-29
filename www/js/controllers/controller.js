@@ -69,13 +69,33 @@ control.controller("selectConfirm", function($scope, factoryDb, $routeParams, $f
   }
 });*/
 
-control.controller('CalendarController', ['$scope', '$filter',
- function($scope, $filter) {
+control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
+ function($scope, $filter, $firebaseArray) {
   $scope.eventSource = [];
   $scope.onSelect = function(start, end) {
    console.log("Event select fired");
-   alert($filter('date')(start, 'mediumDate'));
-   console.log($filter('date')(end, 'mediumDate'));
+   var date = $filter('date')(start, 'medium');
+   //alert(date);
+   var d = date.toString();
+   console.log(d);
+   var day = $filter('date')(new Date(start), 'dd');
+   console.log('day ' + day);
+   var month = $filter('date')(new Date(start), 'MM');
+   console.log('Month ' + month);
+   var year = $filter('date')(new Date(start), 'yyyy');
+   console.log('year ' + year);
+   //timezone '+0000'
+   var hour = $filter('date')(new Date(start), 'H', '+0000');
+   console.log('hour ' + hour);
+   var minute = $filter('date')(new Date(start), 'mm');
+   console.log('minute ' + minute);
+
+   $scope.appointment = {};
+
+   var ref = new Firebase("https://goingtotry.firebaseio.com");
+   $scope.appointments = $firebaseArray(ref.child("users"));//child add nodo to db.
+   $scope.appointments.$add(d);
+
   };
   $scope.eventClick = function(event, allDay, jsEvent, view) {
    alert("Event clicked");
@@ -96,8 +116,8 @@ control.controller('CalendarController', ['$scope', '$filter',
     day: 'D-MMM-YYYY'
    },
    height: 1550,
-   maxTime: "21:00:00",
-   minTime: "8:00:00",
+   maxTime: "20:00:00",
+   minTime: "10:00:00",
    eventDurationEditable: false, // disabling will show resize
    columnFormat: {
     week: 'dd-MM-yyyy',
@@ -157,7 +177,7 @@ angular.module('ui.calendar', [])
     this.eventsFingerprint = function(e) {
       if (!e.__uiCalId) {
         e.__uiCalId = eventSerialId++;
-      }
+        }
       // This extracts all the information we need from the event. http://jsperf.com/angular-calendar-events-fingerprint/3
       return "" + e.__uiCalId + (e.id || '') + (e.title || '') + (e.url || '') + (+e.start || '') + (+e.end || '') +
         (e.allDay || '') + (e.className || '') + extraEventSignature(e) || '';
@@ -292,6 +312,7 @@ angular.module('ui.calendar', [])
     r = [];
     for (k in data) {
       r[k] = data[k];
+//console.log(r[k] == "Sunday");
     }
     return r;
   };
@@ -302,7 +323,7 @@ angular.module('ui.calendar', [])
     dayNames: tValues(dtf.DAY),
     dayNamesShort: tValues(dtf.SHORTDAY)
   }, uiCalendarConfig || {});
-
+//console.log(uiCalendarConfig);
   return {
     restrict: 'A',
     scope: {eventSources:'=ngModel',calendarWatchEvent: '&'},
@@ -320,7 +341,7 @@ angular.module('ui.calendar', [])
             fullCalendarConfig;
 
         fullCalendarConfig = controller.getFullCalendarConfig(calendarSettings, uiCalendarConfig);
-
+//console.log(fullCalendarConfig);
         options = { eventSources: sources };
         angular.extend(options, fullCalendarConfig);
 
@@ -328,6 +349,7 @@ angular.module('ui.calendar', [])
         for(var o in options){
           if(o !== 'eventSources'){
             options2[o] = options[o];
+            //console.log(options2[o]);
           }
         }
         return JSON.stringify(options2);
@@ -397,4 +419,30 @@ angular.module('ui.calendar', [])
         },500);
    }
  };
+});
+var fact = angular.module("factory", []);
+fact.factory("factoryDb", function($firebaseArray){
+  var ref = new Firebase("https://goingtotry.firebaseio.com/users");
+  var appointments = $firebaseArray(ref);
+
+
+  return {
+      list: function(){
+        return appointments;
+      },
+      //appointment is a empty array in controller line 38
+      confirm: function(appointment){
+
+      }
+  };
+})
+control.controller("selectAppointment", function($scope, factoryDb) {
+  console.log("Appointments");
+  $scope.title = "Appointments";
+  $scope.appointments = factoryDb.list();
+  $scope.deleteTask = function(item){
+    $scope.appointments.splice(item,1);
+      console.log("hola" +item);
+  };
+console.log($scope.appointments);
 });

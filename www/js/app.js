@@ -70,13 +70,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('appointment', {
             url: '/appointment',
-            templateUrl: 'templates/appointment.html'
-            // controller: 'LoginController'
-        })
+            templateUrl: 'templates/appointment.html',
+             controller: 'selectAppointment'
+        })/*
         .state('calendar', {
           url: '/calendar',
           templateUrl: 'templates/calendar.html'
         })
+        */
         .state('about', {
             url: '/about',
             templateUrl: 'templates/about.html'
@@ -97,14 +98,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
     "abstract": true,
     templateUrl: 'templates/scrHome-content.html'
    })
-   .state('home.calendar', {
-    url: '/calendar2',
-    views: {
-     'menuContent': {
+   .state('calendar', {
+    url: '/calendar',
+  //  views: {
+    // 'menuContent': {
       templateUrl: 'templates/scrCalendar.html',
       controller: 'CalendarController'
-     }
-    }
+     //}
+    //}
    });
 
     $urlRouterProvider.otherwise('/main');

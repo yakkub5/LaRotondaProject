@@ -1,3 +1,18 @@
 <ion-view view-title="Appointment" class="appointment">
-	appointment
+	<h2>Appointment:</h2>
+ <div class="list-items animate-show-item" ng-repeat="item in appointments">
+	 <ul>
+	 <li  class="animate-repeat-item">
+		 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.text">
+			 <strong>{{item.$value}}</strong></span>
+			 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.email">
+				 <strong>{{item.email}}</strong></span>
+			 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.startDateTime">
+				 <strong>{{item.startDateTime}}</strong></span>
+		 <button ng-click="appointments.$remove(item)" class="btn button icon-left ion-trash-b button-positive">Delete</button>
+	 </li>
+	 </ul>
+	 <div class="no-items"><small ng-show="item.length==0">NO ITEMS!</small></div>
+ </div>
+
 </ion-view>
