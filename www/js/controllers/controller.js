@@ -21,12 +21,17 @@ control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
    var minute = $filter('date')(new Date(start), 'mm');
    console.log('minute ' + minute);
 
+   var f = document.getElementsByClassName("fc-col0 fc-widget-header fc-last");
+   var d = document.getElementsByClassName("fc-widget-content");
+   console.log("date top "+f[0].textContent);
+   console.log("day top "+d[0].textContent);
+
    $scope.appointment = {};
 
    var ref = new Firebase("https://goingtotry.firebaseio.com");
    $scope.appointments = $firebaseArray(ref.child("users"));//child add nodo to db.
    $scope.appointments.$add(d);
-
+console.log(start);
   };
   $scope.eventClick = function(event, allDay, jsEvent, view) {
    alert("Event clicked");
@@ -119,10 +124,13 @@ angular.module('ui.calendar', [])
     };
 
     this.allEvents = function() {
+
       // return sources.flatten(); but we don't have flatten
       var arraySources = [];
       for (var i = 0, srcLen = sources.length; i < srcLen; i++) {
+
         var source = sources[i];
+
           if (angular.isArray(source)) {
           // event source as array
           arraySources.push(source);
@@ -273,6 +281,13 @@ angular.module('ui.calendar', [])
 
         fullCalendarConfig = controller.getFullCalendarConfig(calendarSettings, uiCalendarConfig);
 //console.log(fullCalendarConfig);
+/*
+var p;
+for(var i in fullCalendarConfig){
+//p = fullCalendarConfig[i];
+  console.log("p "+fullCalendarConfig[i]);
+}
+*/
         options = { eventSources: sources };
         angular.extend(options, fullCalendarConfig);
 
