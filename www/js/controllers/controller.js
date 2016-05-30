@@ -1,73 +1,4 @@
 var control = angular.module("control", []);
-/*
-
-control.controller("listButtons", function($scope, factoryDb, $location){
-  $scope.title = "First Page";
-  $scope.selectButton = function(index){
-    switch (index) {
-      case 0:$location.url("/templates/select-appointment.html");
-      break;
-      case 1:$location.url("/templates/select-calendar.html");
-      break;
-      case 2:$location.url("/templates/select-services.html");
-      break;
-      case 3:$location.url("/templates/select-about.html");
-      break;
-      default:
-
-    }
-
-  }
-});
-control.controller("selectAppointment", function($scope, factoryDb) {
-  console.log("Appointments");
-  $scope.title = "Appointments";
-  $scope.appointments = factoryDb.list();
-
-});
-control.controller("selectCalendar", function($scope, factoryDb, $location, $firebaseArray, $rootScope){
-    $scope.title = "Calendar";
-    $scope.appointment = {};
-
-    var ref = new Firebase("https://goingtotry.firebaseio.com");
-    $scope.appointments = $firebaseArray(ref.child("users"));//child add nodo to db.
-
-    $scope.confirm = function(appointment){
-    $scope.appointments.$add(appointment);
-    //var username = "appointments";
-    //var user = ref.child("users");
-    //$scope.users = $firebaseArray(user.child(username));
-    /*var objUser = {date: $scope.appointment.date,
-                     email: $scope.appointment.email,
-                     name: $scope.appointment.name};
-    $scope.users.$add(objUser);*/
-  //  console.log("Save appointments"+factoryDb);
-    /*factoryDb.confirm($scope.appointment.name,
-                      $scope.appointment.email,
-                      $scope.appointment.date);
-                      */
-    //appointments.$add({name: $scope.appointment.name});
-    /*$location.url("/user/appointments");
-  }
-});
-control.controller("selectServices", function($scope, factoryDb){
-  $scope.title = "Services";
-});
-control.controller("selectAbout", function($scope, factoryDb){
-  $scope.title = "About";
-});
-control.controller("selectConfirm", function($scope, factoryDb, $routeParams, $firebaseObject){
-  console.log($routeParams.id);
-  $scope.title = "Confirm appointment";
-  var id = $routeParams.id;
-
-    $scope.selectApp = getAppointment(id);
-
-  $scope.getAppointment = function(id){
-    console.log("getAppointment");
-    return $firebaseObject(ref.child("users").child(id));
-  }
-});*/
 
 control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
  function($scope, $filter, $firebaseArray) {
@@ -192,7 +123,7 @@ angular.module('ui.calendar', [])
       var arraySources = [];
       for (var i = 0, srcLen = sources.length; i < srcLen; i++) {
         var source = sources[i];
-        if (angular.isArray(source)) {
+          if (angular.isArray(source)) {
           // event source as array
           arraySources.push(source);
         } else if(angular.isObject(source) && angular.isArray(source.events)){
