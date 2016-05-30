@@ -1,3 +1,23 @@
 <ion-view view-title="Appointment" class="appointment">
-	appointment
+	<form class="list" ng-submit="events.addEvent(events.event)">
+	  <label class="item item-input item-floating-label">
+	    <span class="input-label">First Name</span>
+	    <input type="text" ng-required="true" placeholder="First Name" ng-model="events.event.name">
+	  </label>
+	  <label class="item item-input item-floating-label">
+	    <span class="input-label">Last Name</span>
+	    <input type="text" ng-required="true" placeholder="Last Name" ng-model="events.event.name2">
+	  </label>
+	  <label class="item item-input item-floating-label">
+	    <span class="input-label">Email</span>
+	    <input type="text" ng-required="true" placeholder="Email" ng-model="events.event.email">
+	  </label>
+	  <button type="submit" class="button button-block button-positive">
+		Block Button
+	  </button>
+		<p>1. {{events.event.name}}</p>
+		<p>2. {{events.event.name2}}</p>
+		<p>3. {{events.event.email}}</p>
+		<p ng-repeat="item in list | filter:name">{{ item | json}}</p>
+	</form>
 </ion-view>
