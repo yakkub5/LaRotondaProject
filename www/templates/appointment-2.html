@@ -1,0 +1,33 @@
+<ion-view view-title="appointment-2" class="appointment" animation="slide-left-right">
+  <form class="list col col-80 col-offset-10" ng-submit="events.addEvent(events.event)">
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Name</span>
+      <input type="text" ng-required="true" placeholder="Name" ng-model="events.event.name">
+    </label>
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Email</span>
+      <input type="text" ng-required="true" placeholder="Email" ng-model="events.event.email">
+    </label>
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Start date</span>
+      <input style="background: transparent;" ng-disabled="true" type="text" ng-required="false" placeholder="Start date" ng-model="events.startDate">
+    </label>
+    <label class="item item-input item-floating-label">
+      <span class="input-label">End date</span>
+      <input style="background: transparent;" ng-disabled="true" type="text" ng-required="false" placeholder="End date" ng-model="events.endDate">
+    </label>
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Additional text</span>
+      <input type="text" ng-required="true" placeholder="Additional text" ng-model="events.event.text">
+    </label>
+    <button type="submit" class="button button-block button-positive">
+    Confirm
+    </button>
+    <p>1. {{events.startDate}}</p>
+    <p>2. {{events.event.email}}</p>
+    <p>3. {{events.event.date}}</p>
+    <p>4. {{events.event.time}}</p>
+    <p>5. {{events.event.text}}</p>
+    <p ng-repeat="item in list | filter:name">{{ item.title }}</p>
+  </form>
+</ion-view>

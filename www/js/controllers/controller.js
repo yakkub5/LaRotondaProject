@@ -1,36 +1,66 @@
 var control = angular.module("control", []);
+var setDate = {};
 
 control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
  function($scope, $filter, $firebaseArray) {
   $scope.eventSource = [];
   $scope.onSelect = function(start, end) {
-   console.log("Event select fired");
-   var date = $filter('date')(start, 'medium');
-   //alert(date);
-   var d = date.toString();
-   console.log(d);
-   var day = $filter('date')(new Date(start), 'dd');
-   console.log('day ' + day);
-   var month = $filter('date')(new Date(start), 'MM');
-   console.log('Month ' + month);
-   var year = $filter('date')(new Date(start), 'yyyy');
-   console.log('year ' + year);
-   //timezone '+0000'
-   var hour = $filter('date')(new Date(start), 'H', '+0000');
-   console.log('hour ' + hour);
-   var minute = $filter('date')(new Date(start), 'mm');
-   console.log('minute ' + minute);
+    console.log("Event select fired");
 
-   $scope.appointment = {};
+    // var date = $filter('date')(start, 'medium');
 
-   var ref = new Firebase("https://goingtotry.firebaseio.com");
-   $scope.appointments = $firebaseArray(ref.child("users"));//child add nodo to db.
-   $scope.appointments.$add(d);
+    // var d = date.toString();
+    // console.log(start);
+    var startDate = $filter('date')(new Date(start), 'yyyy-MM-dd HH:mm');
+    var endDate = $filter('date')(new Date(end), 'yyyy-MM-dd HH:mm');
+    console.log(startDate);
+    // var day = $filter('date')(new Date(start), 'dd');
+    // console.log('day ' + day);
+    // var month = $filter('date')(new Date(start), 'MM');
+    // console.log('Month ' + month);
+    // var year = $filter('date')(new Date(start), 'yyyy');
+    // console.log('year ' + year);
+    //timezone '+0000'
+    // var hour = $filter('date')(new Date(start), 'H');
+    // console.log('hour ' + hour);
+    // var minute = $filter('date')(new Date(start), 'mm');
+    // console.log('minute ' + minute);
 
+
+    setDate = {
+      start: startDate,
+      end: endDate
+
+    };
   };
-  $scope.eventClick = function(event, allDay, jsEvent, view) {
-   alert("Event clicked");
+  
+  this.event = {};
+
+  this.startDate = setDate.start;
+  this.endDate = setDate.end;
+
+  this.addEvent = function(newValue){
+    console.log(newValue);
+    this.event = {};
+    ref.child("events").push({
+      email: newValue.email,
+      text: newValue.text,
+      allDay: false,
+      color: "#F44336",
+      end: this.endDate,
+      start: this.startDate,
+      title: newValue.name
+    });
   };
+
+  var list = $firebaseArray(ref.child("events/"));
+
+  $scope.list = list;
+
+  $scope.eventClick = function(event, allDay, jsEvent, view, $firebaseArray) {
+   // alert("Event clicked");
+  };
+
   $scope.uiConfig = {
    defaultView: 'agendaDay',
    disableDragging: true,
@@ -39,16 +69,16 @@ control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
    unselectAuto: true,
    selectHelper: true,
    editable: false,
-   maxTime: "21:00:00",
-   minTime: "8:00:00",
+   maxTime: "18:00:00",
+   minTime: "09:00:00",
    eventDurationEditable: false, // disabling will show resize
    columnFormat: {
     week: 'dd-MM-yyyy',
     day: 'D-MMM-YYYY'
    },
    height: 1550,
-   maxTime: "20:00:00",
-   minTime: "10:00:00",
+   maxTime: "18:00:00",
+   minTime: "09:00:00",
    eventDurationEditable: false, // disabling will show resize
    columnFormat: {
     week: 'dd-MM-yyyy',
@@ -58,7 +88,7 @@ control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
     day: 'dd-MM-yyyy'
    },
    axisFormat: 'H:mm',
-   weekends: true,
+   weekends: false,
    header: {
     left: 'prev',
     center: '',
@@ -67,13 +97,32 @@ control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
    select: $scope.onSelect,
    eventClick: $scope.eventClick,
    events: [{
-    "id": "8",
-    "title": "Adam Scott",
-    "start": "2014-08-20 10:30:00",
-    "end": "2014-08-20 12:00:00",
-    "allDay": false,
-    "color": "#734187"
-   }]
+      "allDay" : false,
+      "color" : "#F44336",
+      "email" : "kubo.kolar@gmail.com",
+      "end" : "2016-05-31 15:00",
+      "start" : "2016-05-31 14:00",
+      "text" : "None",
+      "title" : "Jakub Kolar"
+    },
+    {
+      "allDay" : false,
+      "color" : "#F44336",
+      "email" : "kubo.kolar@gmail.com",
+      "end" : "2016-05-31 18:30",
+      "start" : "2016-05-31 18:00",
+      "text" : "Ahoj",
+      "title" : "Jakub"
+    },
+    {
+      "allDay" : false,
+      "color" : "#00000",
+      "end" : "2016-05-30 14:30:00",
+      "id" : 1,
+      "start" : "2016-05-30 12:30:00",
+      "title" : "Jakub Kolar"
+    }
+    ]
   };
 
  }
@@ -351,22 +400,7 @@ angular.module('ui.calendar', [])
    }
  };
 });
-var fact = angular.module("factory", []);
-fact.factory("factoryDb", function($firebaseArray){
-  var ref = new Firebase("https://goingtotry.firebaseio.com/users");
-  var appointments = $firebaseArray(ref);
 
-
-  return {
-      list: function(){
-        return appointments;
-      },
-      //appointment is a empty array in controller line 38
-      confirm: function(appointment){
-
-      }
-  };
-})
 control.controller("selectAppointment", function($scope, factoryDb) {
   console.log("Appointments");
   $scope.title = "Appointments";
