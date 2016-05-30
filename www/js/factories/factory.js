@@ -12,20 +12,6 @@ fact.factory("factoryDb", function($firebaseArray){
       //appointment is a empty array in controller line 38
       confirm: function(appointment){
 
-        /*
-        appointments.$add({
-          name:appointment,
-          email:appointment,
-          date: appointment
-        });
-        */
-        /*
-        appointments.$add({
-          name:$scope.appointment.name,
-          email:$scope.appointment.email,
-          date:$scope.appointment.date
-        });
-        */
       }
   };
-});
+})

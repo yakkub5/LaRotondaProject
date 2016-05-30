@@ -1,22 +1,17 @@
-<ion-view view-title="Calendar" class="calendar">
-  <div ui-view="menuContent">
-
-  </div>
-  <!--name="menuContent"-->
-  <ion-nav-view  animation="slide-right-left"></ion-nav-view>
-	    <ion-view>
-	    <ion-nav-bar>
-	     <h1 class="title"><b>Calendar Scroll Issue</b></h1>
-	    </ion-nav-bar>
-	    <ion-content scroll="true" has-bouncing="false" class="showScroll">
-	            <div class="row">
-	                <div class="col col-100" >
-	              <div scroll="true"  ui-calendar="uiConfig" class="calendar target" ng-model="eventSource" id="dayCalendar" calendar="dayCalendar"></div>
-	              </div>
-	             </div>
-	     </ion-content>
-  </ion-view>
+<ion-view view-title="calendar" class="calendar">
+<h2>Appointments:</h2>
+ <div class="list-items animate-show-item" ng-repeat="item in appointments">
+	 <ul>
+	 <li  class="animate-repeat-item">
+		 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.text">
+			 <strong>{{item.$value}}</strong></span>
+			 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.email">
+				 <strong>{{item.email}}</strong></span>
+			 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.startDateTime">
+				 <strong>{{item.startDateTime}}</strong></span>
+		 <button ng-click="appointments.$remove(item)" class="btn button icon-left ion-trash-b button-positive">Delete</button>
+	 </li>
+	 </ul>
+	 <div class="no-items"><small ng-show="item.length==0">NO ITEMS!</small></div>
+ </div>
 </ion-view>
-<div ui-view>
-
-</div>

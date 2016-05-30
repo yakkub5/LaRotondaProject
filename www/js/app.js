@@ -32,84 +32,34 @@ app.run(function($ionicPlatform) {
   });
 });
 
-/*
-app.config(function($routeProvider){
-  $routeProvider
-  .when("/", {
-    templateUrl:"templates/main.html",
-    controller:"listButtons"
-  })
-  .when("/user/select-appointment",{
-    templateUrl:"templates/appointment.html",
-    controller:"selectAppointment"
-  })
-  .when("/user/select-calendar", {
-    templateUrl:"templates/calendar.html",
-    controller:"selectCalendar"
-  })
-  .when("/user/services", {
-    templateUrl:"templates/services.html",
-    controller:"selectServices"
-  })
-  .when("/user/select-about", {
-    templateUrl:"templates/about.html",
-    controller:"selectAbout"
-  })
-  .otherwise({
-    redirectTo:"/"
-  });
-
-})
-*/
-//angular.module('ui.calendar', [])
 
 app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
-        .state('login', {
-            url: '/login',
-            templateUrl: 'templates/login.html'
-            // controller: 'LoginController'
-        })
         .state('appointment', {
             url: '/appointment',
             templateUrl: 'templates/appointment.html',
-             controller: 'selectAppointment'
-        })/*
+             controller: 'CalendarController'
+        })
         .state('calendar', {
           url: '/calendar',
-          templateUrl: 'templates/calendar.html'
-        })
-        */
-        .state('about', {
-            url: '/about',
-            templateUrl: 'templates/about.html'
-            // controller: 'AboutController'
+          templateUrl: 'templates/calendar.html',
+          controller: 'selectAppointment'
         })
         .state('main', {
             url: '/main',
             templateUrl: 'templates/main.html'
             // controller: 'MainController'
         })
+        .state('about', {
+            url: '/about',
+            templateUrl: 'templates/about.html'
+            // controller: 'AboutController'
+        })
         .state('services', {
             url: "/services",
             templateUrl: "templates/services.html"
             // controller: "UserController"
-        })
-        .state('home', {
-
-        url: '/home',
-        "abstract": true,
-        templateUrl: 'templates/scrHome-content.html'
-       })
-       .state('calendar', {
-        url: '/calendar',
-      //  views: {
-        // 'menuContent': {
-          templateUrl: 'templates/scrCalendar.html',
-          controller: 'CalendarController'
-         //}
-        //}
-       });
+        });
 
 
       $urlRouterProvider.otherwise('/main');
