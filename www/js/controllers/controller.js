@@ -168,10 +168,13 @@ angular.module('ui.calendar', [])
     };
 
     this.allEvents = function() {
+
       // return sources.flatten(); but we don't have flatten
       var arraySources = [];
       for (var i = 0, srcLen = sources.length; i < srcLen; i++) {
+
         var source = sources[i];
+
           if (angular.isArray(source)) {
           // event source as array
           arraySources.push(source);
@@ -322,6 +325,13 @@ angular.module('ui.calendar', [])
 
         fullCalendarConfig = controller.getFullCalendarConfig(calendarSettings, uiCalendarConfig);
 //console.log(fullCalendarConfig);
+/*
+var p;
+for(var i in fullCalendarConfig){
+//p = fullCalendarConfig[i];
+  console.log("p "+fullCalendarConfig[i]);
+}
+*/
         options = { eventSources: sources };
         angular.extend(options, fullCalendarConfig);
 
