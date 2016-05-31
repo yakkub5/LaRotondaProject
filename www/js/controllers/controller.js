@@ -1,14 +1,15 @@
 var control = angular.module("control", []);
 
 control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
- function($scope, $filter, $firebaseArray) {
+ function($scope, $filter, $firebaseArray, factoryDb) {
   $scope.eventSource = [];
   $scope.onSelect = function(start, end) {
    console.log("Event select fired");
-   var date = $filter('date')(start, 'medium');
-   //alert(date);
+   var date = $filter("date")(start,"short");
+   //var da = Date(start, 'medium');
+   //console.log("date selected "+da);
    var d = date.toString();
-   console.log(d);
+   console.log("date selected "+d);
    var day = $filter('date')(new Date(start), 'dd');
    console.log('day ' + day);
    var month = $filter('date')(new Date(start), 'MM');
@@ -34,8 +35,36 @@ control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
 console.log(start);
   };
   $scope.eventClick = function(event, allDay, jsEvent, view) {
-   alert("Event clicked");
+    var ref = new Firebase("https://goingtotry.firebaseio.com");
+    $scope.appointments = $firebaseArray(ref.child("users"));//child add nodo to db.
+    //$scope.appointments.$add(d);
+   console.log("Event clicked");
+        console.log("event " +event.toString());
+        /*
+        var title = prompt('Event Title:', event.title, { buttons: { Ok: true, Cancel: false} });
+         if (title){
+         event.title = title;
+         $.ajax({
+           url: 'https://goingtotry.firebaseio.com',
+           data: 'type=changetitle&title='+title+'&eventid='+event.id,
+           type: 'POST',
+           dataType: 'json',
+           success: function(response){
+             if(response.status == 'success')
+             $('#calendar').fullCalendar('updateEvent',event);
+           },
+           error: function(e){
+             alert('Error processing your request: '+e.responseText);
+           }
+         });
+         }
+         */
   };
+
+  var ref = new Firebase("https://goingtotry.firebaseio.com");
+   var appointments = $firebaseArray(ref.child("users"));//child add nodo to db.
+//  $scope.appointments.$add(d);
+console.log(appointments[5]);
   $scope.uiConfig = {
    defaultView: 'agendaDay',
    disableDragging: true,
@@ -63,23 +92,17 @@ console.log(start);
     day: 'dd-MM-yyyy'
    },
    axisFormat: 'H:mm',
-   weekends: true,
+   weekends: false,//WEEKENDS OFF
    header: {
     left: 'prev',
     center: '',
     right: 'next'
    },
-   select: $scope.onSelect,
+   select: $scope.eventClick,//onSelect
    eventClick: $scope.eventClick,
-   events: [{
-    "id": "8",
-    "title": "Adam Scott",
-    "start": "2014-08-20 10:30:00",
-    "end": "2014-08-20 12:00:00",
-    "allDay": false,
-    "color": "#734187"
-   }]
+   events: [appointments]
   };
+
 
  }
 ]);
@@ -128,7 +151,7 @@ angular.module('ui.calendar', [])
       // return sources.flatten(); but we don't have flatten
       var arraySources = [];
       for (var i = 0, srcLen = sources.length; i < srcLen; i++) {
-
+console.log("hla");
         var source = sources[i];
 
           if (angular.isArray(source)) {
@@ -144,6 +167,7 @@ angular.module('ui.calendar', [])
           }
           for(var eI = 0;eI < source.events.length;eI++){
             angular.extend(source.events[eI],extEvent);
+
           }
           arraySources.push(source.events);
         }
@@ -325,6 +349,7 @@ for(var i in fullCalendarConfig){
 
       eventsWatcher.onAdded = function(event) {
         scope.calendar.fullCalendar('renderEvent', event);
+        console.log("onAdded");
       };
 
       eventsWatcher.onRemoved = function(event) {
@@ -333,6 +358,7 @@ for(var i in fullCalendarConfig){
 
       eventsWatcher.onChanged = function(event) {
         scope.calendar.fullCalendar('updateEvent', event);
+        console.log("upadate");
       };
 
       eventSourcesWatcher.subscribe(scope);
@@ -365,23 +391,33 @@ for(var i in fullCalendarConfig){
         },500);
    }
  };
-});
-var fact = angular.module("factory", []);
-fact.factory("factoryDb", function($firebaseArray){
-  var ref = new Firebase("https://goingtotry.firebaseio.com/users");
-  var appointments = $firebaseArray(ref);
-
-
-  return {
-      list: function(){
-        return appointments;
-      },
-      //appointment is a empty array in controller line 38
-      confirm: function(appointment){
-
-      }
-  };
 })
+.directive("sbCalendar", function(){
+  return {
+        link: function (scope, element, attrs) {
+            scope.fireEvents.$loaded(function(){
+                $(element).fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    eventLimit: true, // allow "more" link when too many events
+                    aspectRatio: 4,
+                    events: scope.appointments,
+                    editable: true,
+                    eventDrop: function (event, delta, revertFunc) {
+
+                    } // event drop
+
+                }); // fullCalendar init & options
+            })
+
+        } // link
+
+    } // return
+})
+
 control.controller("selectAppointment", function($scope, factoryDb) {
   console.log("Appointments");
   $scope.title = "Appointments";
