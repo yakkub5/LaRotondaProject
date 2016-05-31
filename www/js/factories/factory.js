@@ -1,7 +1,7 @@
 var fact = angular.module("factory", []);
 
 fact.factory("factoryDb", function($firebaseArray){
-  var ref = new Firebase("https://goingtotry.firebaseio.com/users");
+  var ref = new Firebase("https://larotonda.firebaseio.com/");
   var appointments = $firebaseArray(ref);
 
 

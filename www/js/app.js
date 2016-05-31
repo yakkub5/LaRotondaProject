@@ -14,6 +14,8 @@ var app = angular.module('starter', [
     'ui.calendar'
 ]);
 
+// ----------------------- SOME IONIC STUFF -------------------------
+
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -32,13 +34,30 @@ app.run(function($ionicPlatform) {
   });
 });
 
+// ----------------------- FIREBASE -------------------------
+
+var ref = new Firebase("https://larotonda.firebaseio.com/");
+
+// ----------------------- ANGULAR ROUTER -------------------------
 
 app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
-        .state('appointment', {
-            url: '/appointment',
-            templateUrl: 'templates/appointment.html',
-             controller: 'CalendarController'
+        .state('appointment-1', {
+            url: '/appointment-1',
+            templateUrl: 'templates/appointment-1.html',
+            controller: 'CalendarController'
+        })
+        .state('appointment-2', {
+            url: '/appointment-2',
+            templateUrl: 'templates/appointment-2.html',
+            controller: 'CalendarController',
+            controllerAs: 'events'
+        })
+        .state('appointment-3', {
+            url: '/appointment-3',
+            templateUrl: 'templates/appointment-3.html',
+            controller: 'CalendarController',
+            controllerAs: 'events'
         })
         .state('calendar', {
           url: '/calendar',

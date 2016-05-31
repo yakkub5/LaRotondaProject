@@ -1,70 +1,77 @@
 var control = angular.module("control", []);
+var setDate = {};
 
 control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
  function($scope, $filter, $firebaseArray, factoryDb) {
   $scope.eventSource = [];
   $scope.onSelect = function(start, end) {
-   console.log("Event select fired");
-   var date = $filter("date")(start,"short");
-   //var da = Date(start, 'medium');
-   //console.log("date selected "+da);
-   var d = date.toString();
-   console.log("date selected "+d);
-   var day = $filter('date')(new Date(start), 'dd');
-   console.log('day ' + day);
-   var month = $filter('date')(new Date(start), 'MM');
-   console.log('Month ' + month);
-   var year = $filter('date')(new Date(start), 'yyyy');
-   console.log('year ' + year);
-   //timezone '+0000'
-   var hour = $filter('date')(new Date(start), 'H', '+0000');
-   console.log('hour ' + hour);
-   var minute = $filter('date')(new Date(start), 'mm');
-   console.log('minute ' + minute);
 
-   var f = document.getElementsByClassName("fc-col0 fc-widget-header fc-last");
-   var d = document.getElementsByClassName("fc-widget-content");
-   console.log("date top "+f[0].textContent);
-   console.log("day top "+d[0].textContent);
+    console.log("Event select fired");
 
-   $scope.appointment = {};
+    // var date = $filter('date')(start, 'medium');
 
-   var ref = new Firebase("https://goingtotry.firebaseio.com");
-   $scope.appointments = $firebaseArray(ref.child("users"));//child add nodo to db.
-   $scope.appointments.$add(d);
-console.log(start);
-  };
-  $scope.eventClick = function(event, allDay, jsEvent, view) {
-    var ref = new Firebase("https://goingtotry.firebaseio.com");
-    $scope.appointments = $firebaseArray(ref.child("users"));//child add nodo to db.
-    //$scope.appointments.$add(d);
-   console.log("Event clicked");
-        console.log("event " +event.toString());
-        /*
-        var title = prompt('Event Title:', event.title, { buttons: { Ok: true, Cancel: false} });
-         if (title){
-         event.title = title;
-         $.ajax({
-           url: 'https://goingtotry.firebaseio.com',
-           data: 'type=changetitle&title='+title+'&eventid='+event.id,
-           type: 'POST',
-           dataType: 'json',
-           success: function(response){
-             if(response.status == 'success')
-             $('#calendar').fullCalendar('updateEvent',event);
-           },
-           error: function(e){
-             alert('Error processing your request: '+e.responseText);
-           }
-         });
-         }
-         */
+    // var d = date.toString();
+    // console.log(start);
+    var startDate = $filter('date')(new Date(start), 'yyyy-MM-dd HH:mm:ss');
+    var endDate = $filter('date')(new Date(end), 'yyyy-MM-dd HH:mm:ss');
+    console.log("startDate "+startDate);
+    console.log("endDate "+endDate);
+
+    // var day = $filter('date')(new Date(start), 'dd');
+    // console.log('day ' + day);
+    // var month = $filter('date')(new Date(start), 'MM');
+    // console.log('Month ' + month);
+    // var year = $filter('date')(new Date(start), 'yyyy');
+    // console.log('year ' + year);
+    //timezone '+0000'
+    // var hour = $filter('date')(new Date(start), 'H');
+    // console.log('hour ' + hour);
+    // var minute = $filter('date')(new Date(start), 'mm');
+    // console.log('minute ' + minute);
+
+
+    setDate = {
+      start: startDate,
+      end: endDate
+
+    };
   };
 
-  var ref = new Firebase("https://goingtotry.firebaseio.com");
-   var appointments = $firebaseArray(ref.child("users"));//child add nodo to db.
-//  $scope.appointments.$add(d);
-console.log(appointments[5]);
+  this.event = {};
+
+  this.startDate = setDate.start;
+  this.endDate = setDate.end;
+
+  this.addEvent = function(newValue){
+    console.log(newValue);
+    this.event = {};
+    ref.child("events").push({
+      email: newValue.email,
+      text: newValue.text,
+      allDay: false,
+      color: "#F44336",
+      end: this.endDate,
+      start: this.startDate,
+      title: newValue.name
+    });
+  };
+
+  var appoint = new Firebase("https://larotonda.firebaseio.com");
+  var list = $firebaseArray(ref.child("events/"));
+
+  var appo = $firebaseArray(appoint);
+  console.log("appo "+$scope.appo);
+  appo.$loaded()
+  .then(function(){
+    console.log(appo.value);
+  });
+  $scope.list = list;
+//console.log(list);
+  $scope.eventClick = function(event, allDay, jsEvent, view, $firebaseArray) {
+   // alert("Event clicked");
+  };
+
+
   $scope.uiConfig = {
    defaultView: 'agendaDay',
    disableDragging: true,
@@ -73,16 +80,16 @@ console.log(appointments[5]);
    unselectAuto: true,
    selectHelper: true,
    editable: false,
-   maxTime: "21:00:00",
-   minTime: "8:00:00",
+   maxTime: "18:00:00",
+   minTime: "09:00:00",
    eventDurationEditable: false, // disabling will show resize
    columnFormat: {
     week: 'dd-MM-yyyy',
     day: 'D-MMM-YYYY'
    },
    height: 1550,
-   maxTime: "20:00:00",
-   minTime: "10:00:00",
+   maxTime: "18:00:00",
+   minTime: "09:00:00",
    eventDurationEditable: false, // disabling will show resize
    columnFormat: {
     week: 'dd-MM-yyyy',
@@ -98,10 +105,47 @@ console.log(appointments[5]);
     center: '',
     right: 'next'
    },
-   select: $scope.eventClick,//onSelect
+   select: $scope.onSelect,//onSelect
    eventClick: $scope.eventClick,
-   events: [appointments]
+   events: [{
+      "allDay" : false,
+      "color" : "#F44336",
+      "email" : "kubo.kolar@gmail.com",
+      "end" : "2016-05-31 15:00",
+      "start" : "2016-05-31 14:00",
+      "text" : "None",
+      "title" : "Jakub Kolar"
+    },
+    {
+      "allDay" : false,
+      "color" : "#F44336",
+      "email" : "kubo.kolar@gmail.com",
+      "end" : "2016-05-31 18:30",
+      "start" : "2016-05-31 18:00",
+      "text" : "Ahoj",
+      "title" : "Jakub"
+    },
+    {
+      "allDay" : false,
+      "color" : "#F44336",
+      "email" : "kubo.kolar@gmail.com",
+      "end" : "2016-05-31 13:30",
+      "start" : "2016-05-31 13:00",
+      "text" : "Ahoj",
+      "title" : "Jakub"
+    },
+    {
+      "allDay" : false,
+      "color" : "#00000",
+      "end" : "2016-05-30 14:30:00",
+      "id" : 1,
+      "start" : "2016-05-30 12:30:00",
+      "title" : "Jakub Kolar"
+    }
+    ]
+
   };
+
 
 
  }
@@ -391,12 +435,26 @@ for(var i in fullCalendarConfig){
         },500);
    }
  };
+
+});
+
+
+control.controller("selectAppointment", function($scope, factoryDb) {
+  console.log("Appointments");
+  $scope.title = "Appointments";
+  $scope.appointments = factoryDb.list();
+  $scope.deleteTask = function(item){
+    $scope.appointments.splice(item,1);
+      console.log("hola" +item);
+  };
+console.log($scope.appointments);
 })
-.directive("sbCalendar", function(){
-  return {
+.directive("sbCalendar", function () {
+    return {
         link: function (scope, element, attrs) {
-            scope.fireEvents.$loaded(function(){
+            $scope.appo.$loaded(function(){
                 $(element).fullCalendar({
+
                     header: {
                         left: 'prev,next today',
                         center: 'title',
@@ -404,7 +462,7 @@ for(var i in fullCalendarConfig){
                     },
                     eventLimit: true, // allow "more" link when too many events
                     aspectRatio: 4,
-                    events: scope.appointments,
+                    events: scope.appo,
                     editable: true,
                     eventDrop: function (event, delta, revertFunc) {
 
@@ -416,15 +474,4 @@ for(var i in fullCalendarConfig){
         } // link
 
     } // return
-})
-
-control.controller("selectAppointment", function($scope, factoryDb) {
-  console.log("Appointments");
-  $scope.title = "Appointments";
-  $scope.appointments = factoryDb.list();
-  $scope.deleteTask = function(item){
-    $scope.appointments.splice(item,1);
-      console.log("hola" +item);
-  };
-console.log($scope.appointments);
-});
+}); // directive

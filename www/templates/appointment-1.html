@@ -1,0 +1,11 @@
+<ion-view view-title="appointment" name="menuContent" class="appointment" animation="slide-left-right">
+    <ion-content scroll="true" has-bouncing="false" class="showScroll">
+        <div class="row">
+            <div class="col col-100" >
+              <div scroll="true"  ui-calendar="uiConfig" class="calendar target"
+           ng-model="eventSource" id="dayCalendar" calendar="dayCalendar"></div>
+            </div>
+         </div>
+        <button ui-sref="appointment-2" ng-disabled="false" type="submit" class="button button-block button-positive">Next</button>
+     </ion-content>
+</ion-view>
