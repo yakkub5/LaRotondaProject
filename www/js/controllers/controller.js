@@ -3,8 +3,8 @@ var setDate = {};
 var list = {};
 var successData = {};
 
-control.controller('AppointmentController', ['$scope', '$filter', '$firebaseArray',
- function($scope, $filter, $firebaseArray, factoryDb, $window) {
+control.controller('AppointmentController', ['$scope', '$filter', '$firebaseArray','$location',
+ function($scope, $filter, $firebaseArray, factoryDb, $window, $location, $timeout) {
   $scope.eventSource = [];
   $scope.onSelect = function(start, end) {
 
@@ -85,7 +85,6 @@ control.controller('AppointmentController', ['$scope', '$filter', '$firebaseArra
     this.event = {};
   };
 
-  $scope.successData = $scope.success[0];
 
   $scope.eventClick = function(event, allDay, jsEvent, view, $firebaseArray) {
    // alert("Event clicked");

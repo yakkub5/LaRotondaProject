@@ -234,6 +234,11 @@ p b {
 .appointment .bar.bar-footer a {
   text-decoration: none;
 }
+.appointment .errorMessage {
+  font-size: 10px;
+  color: #c73d2e;
+  margin: 0px 0px;
+}
 .appointment.appointment-3 .success-img {
   margin-top: 80px;
   margin-bottom: 40px;

@@ -3,30 +3,36 @@
         <h2>Fill-up details</h2>
     </div>
     <ion-content scroll="false" has-bouncing="false" class="has-header has-footer">
-        <form class="list" ng-submit="events.addEvent(events.event)">
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Name</span>
-            <input type="text" ng-required="true" placeholder="Name" ng-model="events.event.name">
-          </label>
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Email</span>
-            <input type="text" ng-required="true" placeholder="Email" ng-model="events.event.email">
-          </label>
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Start date</span>
-            <input style="background: transparent;" ng-disabled="true" type="text" ng-required="false" placeholder="Start date" ng-model="events.startDate">
-          </label>
-          <label class="item item-input item-floating-label">
-            <span class="input-label">End date</span>
-            <input style="background: transparent;" ng-disabled="true" type="text" ng-required="false" placeholder="End date" ng-model="events.endDate">
-          </label>
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Additional text</span>
-            <input type="text" ng-required="true" placeholder="Additional text" ng-model="events.event.text">
-          </label>
-          <button type="submit" class="button button-block button-positive">Confirm</button>
-          <button ui-sref="appointment-3" class="button button-block button-positive">next</button>
-        </form>
+        <form class="list" ng-submit="events.addEvent(events.event)" action="#/appointment-3" name="form">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Name</span>
+          <input type="text" ng-required="true" placeholder="Name" ng-model="events.event.name" name="user" ng-required>
+          <span class="errorMessage" ng-show="!form.user.$pristine && form.user.$invalid">The name is required</span>
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Email</span>
+          <input type="email" ng-required="true" placeholder="Email" ng-model="events.event.email" name="address" required>
+          <span class="errorMessage" ng-show="form.address.$error.email">Not valid email</span>
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Start date</span>
+          <input style="background: transparent;" ng-disabled="true" type="text" ng-required="false"
+           placeholder="Start date" ng-model="events.startDate">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">End date</span>
+          <input style="background: transparent;" ng-disabled="true" type="text" ng-required="false"
+          placeholder="End date" ng-model="events.endDate">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Additional text</span>
+          <input type="text" ng-required="false" placeholder="Additional text"
+          ng-model="events.event.text">
+        </label>
+
+        <button type="submit" class="button button-block button-positive"
+          ng-disabled="form.user.$dirty && form.user.$invalid || form.address.$dirty && form.address.$invalid && form.address.$error">Confirm</button>
+      </form>
     </ion-content>
     <div class="bar bar-footer">
       <a ui-sref="appointment-1">
