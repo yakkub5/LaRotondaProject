@@ -4,9 +4,10 @@ var list = {};
 var successData = {};
 
 control.controller('AppointmentController', ['$scope', '$filter', '$firebaseArray',
- function($scope, $filter, $firebaseArray, $window) {
+ function($scope, $filter, $firebaseArray, factoryDb, $window) {
   $scope.eventSource = [];
   $scope.onSelect = function(start, end) {
+
     console.log("Event select fired");
 
     var startDate = $filter('date')(new Date(start - 1000 * 60 * 60 * 2), 'yyyy-MM-dd HH:mm');
@@ -90,6 +91,7 @@ control.controller('AppointmentController', ['$scope', '$filter', '$firebaseArra
    // alert("Event clicked");
   };
 
+
   $scope.uiConfig = {
    defaultView: 'agendaDay',
    disableDragging: true,
@@ -117,13 +119,13 @@ control.controller('AppointmentController', ['$scope', '$filter', '$firebaseArra
     day: 'dd-MM-yyyy'
    },
    axisFormat: 'H:mm',
-   weekends: false,
+   weekends: false,//WEEKENDS OFF
    header: {
     left: 'prev',
     center: '',
     right: 'next'
    },
-   select: $scope.onSelect,
+   select: $scope.onSelect,//onSelect
    eventClick: $scope.eventClick,
    events: list
   };
@@ -174,7 +176,7 @@ angular.module('ui.calendar', [])
       // return sources.flatten(); but we don't have flatten
       var arraySources = [];
       for (var i = 0, srcLen = sources.length; i < srcLen; i++) {
-
+console.log("hla");
         var source = sources[i];
 
           if (angular.isArray(source)) {
@@ -190,6 +192,7 @@ angular.module('ui.calendar', [])
           }
           for(var eI = 0;eI < source.events.length;eI++){
             angular.extend(source.events[eI],extEvent);
+
           }
           arraySources.push(source.events);
         }
@@ -371,6 +374,7 @@ for(var i in fullCalendarConfig){
 
       eventsWatcher.onAdded = function(event) {
         scope.calendar.fullCalendar('renderEvent', event);
+        console.log("onAdded");
       };
 
       eventsWatcher.onRemoved = function(event) {
@@ -379,6 +383,7 @@ for(var i in fullCalendarConfig){
 
       eventsWatcher.onChanged = function(event) {
         scope.calendar.fullCalendar('updateEvent', event);
+        console.log("upadate");
       };
 
       eventSourcesWatcher.subscribe(scope);
@@ -411,7 +416,9 @@ for(var i in fullCalendarConfig){
         },500);
    }
  };
+
 });
+
 
 control.controller("selectAppointment", function($scope, factoryDb, $firebaseArray) {
   console.log("Appointments");
@@ -470,3 +477,4 @@ control.controller("selectAppointment", function($scope, factoryDb, $firebaseArr
    events: list
   };
 });
+
