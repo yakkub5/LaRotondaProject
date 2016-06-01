@@ -1,47 +1,73 @@
 var control = angular.module("control", []);
 var setDate = {};
+var list = {};
+var successData = {};
 
-control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
- function($scope, $filter, $firebaseArray) {
+control.controller('AppointmentController', ['$scope', '$filter', '$firebaseArray',
+ function($scope, $filter, $firebaseArray, $window) {
   $scope.eventSource = [];
   $scope.onSelect = function(start, end) {
     console.log("Event select fired");
 
-    // var date = $filter('date')(start, 'medium');
+    var startDate = $filter('date')(new Date(start - 1000 * 60 * 60 * 2), 'yyyy-MM-dd HH:mm');
+    var endDate = $filter('date')(new Date(end - 1000 * 60 * 60 * 2), 'yyyy-MM-dd HH:mm');
 
-    // var d = date.toString();
-    // console.log(start);
-    var startDate = $filter('date')(new Date(start), 'yyyy-MM-dd HH:mm');
-    var endDate = $filter('date')(new Date(end), 'yyyy-MM-dd HH:mm');
-    console.log(startDate);
-    // var day = $filter('date')(new Date(start), 'dd');
-    // console.log('day ' + day);
-    // var month = $filter('date')(new Date(start), 'MM');
-    // console.log('Month ' + month);
-    // var year = $filter('date')(new Date(start), 'yyyy');
-    // console.log('year ' + year);
-    //timezone '+0000'
-    // var hour = $filter('date')(new Date(start), 'H');
-    // console.log('hour ' + hour);
-    // var minute = $filter('date')(new Date(start), 'mm');
-    // console.log('minute ' + minute);
-
-
+    $scope.disableButton = false;
+    console.log(startDate + endDate);
     setDate = {
       start: startDate,
       end: endDate
-
     };
   };
-  
+
+  $scope.media = null;
+
+  $scope.playSound = function (sound) {
+
+    if ($scope.media) {
+      $scope.media.pause();
+    };
+
+    if(window.cordova){
+      console.log("kviiik");
+      ionic.Platform.ready(function (){
+
+        var src = sound.file;
+        if(ionic.Platform.is('andriod')) {
+          src = '/mp3/sound.mp3';
+        }
+        $scope.media = new window.Media(src);
+        $scope.media.play();
+      });
+    } else {
+      $scope.media = new Audio();
+      $scope.media.src = '/mp3/sound.mp3';
+      $scope.media.load();
+      $scope.media.play();
+    };
+  };
+
+  list = $firebaseArray(ref.child("events/"));
+
+  $scope.disableButton = true;
+
   this.event = {};
+
+  $scope.success = [{
+      email: "newValue.email",
+      text: "newValue.text",
+      allDay: "false",
+      color: "#F44335.9",
+      end: "this.endDate",
+      start: "this.startDate",
+      title: "newValue.name"
+    }];
 
   this.startDate = setDate.start;
   this.endDate = setDate.end;
 
   this.addEvent = function(newValue){
     console.log(newValue);
-    this.event = {};
     ref.child("events").push({
       email: newValue.email,
       text: newValue.text,
@@ -51,11 +77,14 @@ control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
       start: this.startDate,
       title: newValue.name
     });
+    this.startDate = {};
+    this.endDate = {};
+    $scope.playSound();
+    console.log($scope.success);
+    this.event = {};
   };
 
-  var list = $firebaseArray(ref.child("events/"));
-
-  $scope.list = list;
+  $scope.successData = $scope.success[0];
 
   $scope.eventClick = function(event, allDay, jsEvent, view, $firebaseArray) {
    // alert("Event clicked");
@@ -69,16 +98,16 @@ control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
    unselectAuto: true,
    selectHelper: true,
    editable: false,
-   maxTime: "18:00:00",
-   minTime: "09:00:00",
+   maxTime: "20:30:00",
+   minTime: "10:00:00",
    eventDurationEditable: false, // disabling will show resize
    columnFormat: {
     week: 'dd-MM-yyyy',
     day: 'D-MMM-YYYY'
    },
-   height: 1550,
-   maxTime: "18:00:00",
-   minTime: "09:00:00",
+   height: 380,// 380 - iPhone5, others 450
+   maxTime: "20:30:00",
+   minTime: "10:00:00",
    eventDurationEditable: false, // disabling will show resize
    columnFormat: {
     week: 'dd-MM-yyyy',
@@ -96,35 +125,8 @@ control.controller('CalendarController', ['$scope', '$filter', '$firebaseArray',
    },
    select: $scope.onSelect,
    eventClick: $scope.eventClick,
-   events: [{
-      "allDay" : false,
-      "color" : "#F44336",
-      "email" : "kubo.kolar@gmail.com",
-      "end" : "2016-05-31 15:00",
-      "start" : "2016-05-31 14:00",
-      "text" : "None",
-      "title" : "Jakub Kolar"
-    },
-    {
-      "allDay" : false,
-      "color" : "#F44336",
-      "email" : "kubo.kolar@gmail.com",
-      "end" : "2016-05-31 18:30",
-      "start" : "2016-05-31 18:00",
-      "text" : "Ahoj",
-      "title" : "Jakub"
-    },
-    {
-      "allDay" : false,
-      "color" : "#00000",
-      "end" : "2016-05-30 14:30:00",
-      "id" : 1,
-      "start" : "2016-05-30 12:30:00",
-      "title" : "Jakub Kolar"
-    }
-    ]
+   events: list
   };
-
  }
 ]);
 angular.module('ui.calendar', [])
@@ -411,7 +413,7 @@ for(var i in fullCalendarConfig){
  };
 });
 
-control.controller("selectAppointment", function($scope, factoryDb) {
+control.controller("selectAppointment", function($scope, factoryDb, $firebaseArray) {
   console.log("Appointments");
   $scope.title = "Appointments";
   $scope.appointments = factoryDb.list();
@@ -419,5 +421,52 @@ control.controller("selectAppointment", function($scope, factoryDb) {
     $scope.appointments.splice(item,1);
       console.log("hola" +item);
   };
-console.log($scope.appointments);
+  console.log($scope.appointments);
+  $scope.eventSource = [];
+  $scope.onSelect = function(start, end) {
+  };
+
+  list = $firebaseArray(ref.child("events/"));
+
+
+  $scope.eventClick = function(event, allDay, jsEvent, view, $firebaseArray) {
+   // alert("Event clicked");
+  };
+  $scope.uiConfig = {
+   defaultView: 'month',
+   disableDragging: true,
+   allDaySlot: false,
+   selectable: false,
+   unselectAuto: true,
+   selectHelper: true,
+   editable: false,
+   maxTime: "18:00:00",
+   minTime: "09:00:00",
+   eventDurationEditable: false, // disabling will show resize
+   columnFormat: {
+    week: 'dd-MM-yyyy',
+    day: 'D-MMM-YYYY'
+   },
+   height: 250,
+   maxTime: "18:00:00",
+   minTime: "09:00:00",
+   eventDurationEditable: false, // disabling will show resize
+   columnFormat: {
+    week: 'dd-MM-yyyy',
+    day: 'D-MMM-YYYY'
+   },
+   titleFormat: {
+    day: 'dd-MM-yyyy'
+   },
+   axisFormat: 'H:mm',
+   weekends: false,
+   header: {
+    left: 'prev',
+    center: '',
+    right: 'next'
+   },
+   select: $scope.onSelect,
+   eventClick: $scope.eventClick,
+   events: list
+  };
 });

@@ -68,7 +68,7 @@ p {
 	background: url("../img/bg_main.jpg");
 	background-size: cover;
 	background-position: center;
-	.scroll{
+	.scroll-content-false{
 		display: flex;
 		flex-direction: column;
     	justify-content: space-between;
@@ -98,10 +98,11 @@ p {
 			text-align: left;
 			display: flex;
 			justify-content: flex-start;
-			align-items: center;
 			img{
 				margin-right: 10px;
 				max-width: 23px;
+				max-height: 22px;
+				margin-top: 10px;
 			}
 			&.activated{
 				background: #fff;
@@ -212,6 +213,112 @@ p {
 		}
 		p{
 			margin-bottom: 20px;
+		}
+	}
+}
+
+.appointment{
+	.button-positive{
+		background: transparent;
+		color: @brandColor!important;
+		border: 3px solid @brandColor;
+		border-radius: 5px;
+		max-width: 75%;
+		margin: 0 auto;
+		margin-top: 20px;
+		&.activated{
+			background: @brandColor;
+			color: #fff!important;
+		}
+	}
+	.bar{
+		display: flex;
+		align-items: center;
+		border: none;
+		flex-direction: column;
+		// &.bar-header{
+		// 	height: 165px;
+		// 	min-height: 165px;
+		// 	border-bottom: 1px solid #fff;
+		// 	img{
+		// 		width: 100px;
+		// 		margin-top: 30px;
+
+		// 	}
+		// }
+		&.bar-footer{
+			border-top: 1px solid #fff;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			button{
+				font-size: 13px;
+				color: @brandColor;
+			}
+			img{
+				max-height: 9px;
+				max-width: 7px;
+				margin: 0px;
+				margin-top: 14px;
+				margin-right: -5px;
+			}
+			a{
+				text-decoration: none;
+			}
+		}
+	}
+	&.appointment-3{
+		.success-img{
+			margin-top: 80px;
+			margin-bottom: 40px;
+		}
+		a{
+			text-decoration: none;
+		}
+		.heading2{
+			margin-bottom: 80px;
+		}
+		.button-positive{
+			max-width: 95%!important;
+		}
+	}
+}
+
+.calendar{
+	.bar{
+		display: flex;
+		align-items: center;
+		border: none;
+		flex-direction: column;
+		// &.bar-header{
+		// 	height: 165px;
+		// 	min-height: 165px;
+		// 	border-bottom: 1px solid #fff;
+		// 	img{
+		// 		width: 100px;
+		// 		margin-top: 30px;
+
+		// 	}
+		// }
+		&.bar-footer{
+			border-top: 1px solid #fff;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			button{
+				font-size: 13px;
+				color: @brandColor;
+			}
+			img{
+				max-height: 9px;
+				max-width: 7px;
+				margin: 0px;
+				margin-top: 14px;
+				margin-right: -5px;
+			}
+			a{
+				text-decoration: none;
+			}
 		}
 	}
 }

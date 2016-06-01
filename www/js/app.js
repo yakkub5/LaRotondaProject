@@ -45,18 +45,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('appointment-1', {
             url: '/appointment-1',
             templateUrl: 'templates/appointment-1.html',
-            controller: 'CalendarController'
+            controller: 'AppointmentController'
         })
         .state('appointment-2', {
             url: '/appointment-2',
             templateUrl: 'templates/appointment-2.html',
-            controller: 'CalendarController',
+            controller: 'AppointmentController',
             controllerAs: 'events'
         })
         .state('appointment-3', {
             url: '/appointment-3',
             templateUrl: 'templates/appointment-3.html',
-            controller: 'CalendarController',
+            controller: 'AppointmentController',
             controllerAs: 'events'
         })
         .state('calendar', {
@@ -66,8 +66,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('main', {
             url: '/main',
-            templateUrl: 'templates/main.html'
-            // controller: 'MainController'
+            templateUrl: 'templates/main.html',
+            controller: 'selectAppointment'
         })
         .state('about', {
             url: '/about',

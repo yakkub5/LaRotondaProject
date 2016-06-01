@@ -61,7 +61,7 @@ p b {
   background-size: cover;
   background-position: center;
 }
-.main .scroll {
+.main .scroll-content-false {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -83,18 +83,19 @@ p b {
 .main .navigation {
   max-height: 270px;
 }
-.main .navigation .button-block {
+.main .navigation .button {
   border: 2px solid #fff;
   margin: 20px 0px;
   color: #fff;
   text-align: left;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
 }
 .main .navigation .button img {
   margin-right: 10px;
   max-width: 23px;
+  max-height: 22px;
+  margin-top: 10px;
 }
 .main .navigation .button.activated {
   background: #fff;
@@ -193,4 +194,82 @@ p b {
 }
 .about .about-section p {
   margin-bottom: 20px;
+}
+.appointment .button-positive {
+  background: transparent;
+  color: #1D7EE0 !important;
+  border: 3px solid #1D7EE0;
+  border-radius: 5px;
+  max-width: 75%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.appointment .button-positive.activated {
+  background: #1D7EE0;
+  color: #fff!important;
+}
+.appointment .bar {
+  display: flex;
+  align-items: center;
+  border: none;
+  flex-direction: column;
+}
+.appointment .bar.bar-footer {
+  border-top: 1px solid #fff;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.appointment .bar.bar-footer button {
+  font-size: 13px;
+  color: #1D7EE0;
+}
+.appointment .bar.bar-footer img {
+  max-height: 9px;
+  max-width: 7px;
+  margin: 0px;
+  margin-top: 14px;
+  margin-right: -5px;
+}
+.appointment .bar.bar-footer a {
+  text-decoration: none;
+}
+.appointment.appointment-3 .success-img {
+  margin-top: 80px;
+  margin-bottom: 40px;
+}
+.appointment.appointment-3 a {
+  text-decoration: none;
+}
+.appointment.appointment-3 .heading2 {
+  margin-bottom: 80px;
+}
+.appointment.appointment-3 .button-positive {
+  max-width: 95%!important;
+}
+.calendar .bar {
+  display: flex;
+  align-items: center;
+  border: none;
+  flex-direction: column;
+}
+.calendar .bar.bar-footer {
+  border-top: 1px solid #fff;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.calendar .bar.bar-footer button {
+  font-size: 13px;
+  color: #1D7EE0;
+}
+.calendar .bar.bar-footer img {
+  max-height: 9px;
+  max-width: 7px;
+  margin: 0px;
+  margin-top: 14px;
+  margin-right: -5px;
+}
+.calendar .bar.bar-footer a {
+  text-decoration: none;
 }

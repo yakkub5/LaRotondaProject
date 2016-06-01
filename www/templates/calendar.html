@@ -1,17 +1,31 @@
-<ion-view view-title="calendar" class="calendar">
-<h2>Appointments:</h2>
- <div class="list-items animate-show-item" ng-repeat="item in appointments">
-	 <ul>
-	 <li  class="animate-repeat-item">
-		 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.text">
-			 <strong>{{item.$value}}</strong></span>
-			 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.email">
-				 <strong>{{item.email}}</strong></span>
-			 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.startDateTime">
-				 <strong>{{item.startDateTime}}</strong></span>
-		 <button ng-click="appointments.$remove(item)" class="btn button icon-left ion-trash-b button-positive">Delete</button>
-	 </li>
-	 </ul>
-	 <div class="no-items"><small ng-show="item.length==0">NO ITEMS!</small></div>
- </div>
+<ion-view view-title="calendar" class="calendar" animation="slide-left-right">
+	<div class="bar bar-header bar-light">
+	  	<h2>Calendar</h2>
+	</div>
+	<ion-content scroll="true" class="has-header col col-100 has-footer">
+		<div class="list-items animate-show-item">
+			<div class="row">
+				<div class="col col-100" >
+					<div scroll="true"  ui-calendar="uiConfig" class="calendar target" ng-model="eventSource" id="dayCalendar" calendar="dayCalendar"></div>
+				</div>
+			</div>
+		</div>
+		<!-- <ul ng-repeat="item in appointments">
+			 <li  class="animate-repeat-item">
+				 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.text">
+					 <strong>{{item.$value}}</strong></span>
+					 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.email">
+						 <strong>{{item.email}}</strong></span>
+					 <span ng-class="{done:item.completed}" ltc-editable class-off="done" ng-model="item.startDateTime">
+						 <strong>{{item.startDateTime}}</strong></span>
+				 <button ng-click="appointments.$remove(item)" class="btn button icon-left ion-trash-b button-positive">Delete</button>
+			 </li>
+		</ul> -->
+	</ion-content>
+	<div class="bar bar-footer">
+		<a ui-sref="main">
+			<img src="img/icons/arrow_left.png" />
+			<button class="button button-clear center">Back</button>
+		</a>
+	</div>
 </ion-view>

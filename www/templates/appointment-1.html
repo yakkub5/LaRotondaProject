@@ -1,11 +1,20 @@
-<ion-view view-title="appointment" name="menuContent" class="appointment" animation="slide-left-right">
-    <ion-content scroll="true" has-bouncing="false" class="showScroll">
+<ion-view class="appointment appointment-1" view-title="appointment" name="menuContent" class="appointment" animation="slide-left-right">
+    <div class="bar bar-header bar-light">
+        <h2>Select Day and Time</h2>
+    </div>
+    <ion-content scroll="false" has-bouncing="false" class="has-header col col-100 has-footer">
         <div class="row">
             <div class="col col-100" >
               <div scroll="true"  ui-calendar="uiConfig" class="calendar target"
            ng-model="eventSource" id="dayCalendar" calendar="dayCalendar"></div>
             </div>
          </div>
-        <button ui-sref="appointment-2" ng-disabled="false" type="submit" class="button button-block button-positive">Next</button>
+        <button ui-sref="appointment-2" ng-disabled="disableButton" type="submit" class="button button-block button-positive">Next</button>
      </ion-content>
+     <div class="bar bar-footer">
+        <a ui-sref="main">
+            <img src="img/icons/arrow_left.png" />
+            <button class="button button-clear center">Back</button>
+        </a>
+    </div>
 </ion-view>
